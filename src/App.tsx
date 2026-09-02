@@ -24,6 +24,13 @@ import {
 import { useRef, useState, useTransition } from "react"
 import * as z from "zod"
 import OutputAlert from "./components/output-alert"
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+} from "./components/ui/alert"
+import { Skeleton } from "./components/ui/skeleton"
 import useZodValidator from "./hooks/use-zod-validator"
 
 // ── Validation schemas ────────────────────────────────────────────────────────
@@ -54,6 +61,7 @@ const formatBytes = (bytes: number): string => {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export function App() {
+  const [tab, setTab] = useState<"text" | "file">("text")
   // ── Text tab state ──────────────────────────────────────────────────────────
   const [input, setInput] = useState<string>("")
   const [output, setOutput] = useState<string>("")
@@ -206,7 +214,11 @@ export function App() {
         </div>
 
         <div className="mt-16">
-          <Tabs defaultValue="text" className="mx-auto w-full max-w-xl">
+          <Tabs
+            defaultValue="text"
+            onValueChange={setTab}
+            className="mx-auto w-full max-w-xl"
+          >
             <TabsList className="w-full">
               <TabsTrigger value="text">
                 <Type /> Text
@@ -386,16 +398,21 @@ export function App() {
           {/* Status area */}
           <div className="mx-auto w-full max-w-xl mt-4">
             {(isPending || isFilePending) && (
-              <div className="flex items-center gap-2 justify-center">
-                <p className="shimmer text-muted-foreground text-sm">
-                  Processing…
-                </p>
-              </div>
+              <Alert className="p-4">
+                <AlertTitle>
+                  <Skeleton className="h-4 max-w-[6ch]" />
+                </AlertTitle>
+                <AlertDescription className="space-y-1 mt-1">
+                  <Skeleton className="h-4" />
+                  <Skeleton className="h-4" />
+                </AlertDescription>
+                <AlertAction className="top-2.5"></AlertAction>
+              </Alert>
             )}
-            {output && !isPending && (
+            {output && !isPending && tab === "text" && (
               <OutputAlert value={output} isError={isOutputError} />
             )}
-            {fileStatus && !isFilePending && (
+            {fileStatus && !isFilePending && tab === "file" && (
               <OutputAlert value={fileStatus} isError={isFileError} />
             )}
           </div>
