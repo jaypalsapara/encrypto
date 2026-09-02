@@ -1,5 +1,5 @@
 import PasswordInput from "@/components/password-input"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import {
   Field,
@@ -35,6 +35,7 @@ import {
 } from "./components/ui/alert"
 import { Skeleton } from "./components/ui/skeleton"
 import useZodValidator from "./hooks/use-zod-validator"
+import { cn } from "./lib/utils"
 
 // ── Validation schemas ────────────────────────────────────────────────────────
 const textSchema = z.object({
@@ -191,12 +192,12 @@ export function App() {
     <div className="flex min-h-svh flex-col bg-neutral-50 dark:bg-neutral-950">
       {/* Header */}
       <header className="px-4 lg:border-x mx-auto lg:max-w-4xl w-full h-14 flex items-center border-b sticky top-0 bg-neutral-50 dark:bg-neutral-950">
-        <div className="flex items-center gap-2 mr-auto">
+        <a href="/" className="flex items-center gap-2 mr-auto">
           <Lock className="stroke-3 size-4.5" />
           <p className="text-lg tracking-tight font-bold leading-none">
             Encrypto
           </p>
-        </div>
+        </a>
         <div className="flex gap-2 items-center">
           <Button
             variant={"ghost"}
@@ -219,6 +220,11 @@ export function App() {
             href="https://github.com/jaypalsapara/encrypto"
             target="_blank"
             rel="noopener noreferrer"
+            className={cn(
+              buttonVariants({
+                variant: "ghost",
+              })
+            )}
           >
             GitHub
           </a>
@@ -465,6 +471,7 @@ export function App() {
             href="https://jaypalsapara.in"
             target="_blank"
             rel="noopener noreferrer"
+
             className="underline hover:text-foreground"
           >
             Jaypal Sapara
