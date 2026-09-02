@@ -297,7 +297,7 @@ export function App() {
                     </FieldSet>
                   </FieldGroup>
                 </CardContent>
-                <CardFooter className="gap-2">
+                <CardFooter className="gap-2 items-stretch md:items-center flex-col md:flex-row">
                   <Button
                     className="grow"
                     onClick={handleEncrypt}
@@ -313,7 +313,7 @@ export function App() {
                   >
                     <LockOpen className="size-4" /> Decrypt
                   </Button>
-                  <Button variant="outline" onClick={handleClear}>
+                  <Button variant="ghost" onClick={handleClear}>
                     Clear
                   </Button>
                 </CardFooter>
@@ -381,6 +381,7 @@ export function App() {
                             ref={fileInputRef}
                             type="file"
                             className="hidden"
+                            accept="*/*"
                             onChange={(e) =>
                               handleFileSelect(e.target.files?.[0] ?? null)
                             }
@@ -405,7 +406,7 @@ export function App() {
                     </FieldSet>
                   </FieldGroup>
                 </CardContent>
-                <CardFooter className="gap-2">
+                <CardFooter className="gap-2 items-stretch md:items-center flex-col md:flex-row">
                   <Button
                     className="grow"
                     onClick={handleFileEncrypt}
@@ -421,7 +422,7 @@ export function App() {
                   >
                     <LockOpen className="size-4" /> Decrypt & Download
                   </Button>
-                  <Button variant="outline" onClick={handleFileClear}>
+                  <Button variant="ghost" onClick={handleFileClear}>
                     Clear
                   </Button>
                 </CardFooter>
