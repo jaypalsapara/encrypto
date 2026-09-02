@@ -175,7 +175,10 @@ export const encryptFile = async (
   payload.set(fileBytes, 2 + nameBytes.length)
 
   const encryptedBytes = await encryptBytes(payload, password)
-  return new Blob([encryptedBytes], { type: "application/octet-stream" })
+  // Copy into a new plain ArrayBuffer — the only type Blob accepts in strict TS
+  const plainBuffer = new ArrayBuffer(encryptedBytes.byteLength)
+  new Uint8Array(plainBuffer).set(encryptedBytes)
+  return new Blob([plainBuffer], { type: "application/octet-stream" })
 }
 
 export interface DecryptedFile {

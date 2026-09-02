@@ -18,5 +18,13 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
     },
+    ignores: [
+      'node_modules',
+      'public',
+      'tailwind.config.js',
+      'vite.config.ts',
+      'src/components/ui/*',
+    ],
+
   },
 ])
