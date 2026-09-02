@@ -180,9 +180,9 @@ export function App() {
 
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
-    <div className="flex min-h-svh flex-col bg-neutral-50 dark:bg-neutral-950">
+    <div className="flex min-h-svh flex-col grid-bg">
       {/* Header */}
-      <header className="px-4 lg:border-x mx-auto lg:max-w-4xl w-full h-14 flex items-center border-b sticky top-0 bg-neutral-50 dark:bg-neutral-950">
+      <header className="px-4 lg:border-x mx-auto lg:max-w-4xl w-full h-14 flex items-center border-b sticky top-0 bg-neutral-50">
         <div className="flex items-center gap-2 mr-auto">
           <Lock className="stroke-3 size-4.5" />
           <p className="text-lg tracking-tight font-bold leading-none">
@@ -201,7 +201,7 @@ export function App() {
       </header>
 
       {/* Main */}
-      <main className="flex flex-col lg:border-x max-w-4xl mx-auto grow px-4 w-full py-16">
+      <main className="flex flex-col lg:border-x max-w-4xl mx-auto grow px-4 w-full py-16 bg-neutral-50">
         <div className="flex flex-col items-center justify-center gap-2">
           <h1 className="max-w-[18ch] text-center text-6xl md:text-8xl leading-none font-bold tracking-tighter text-balance">
             Encrypt Your Private Data
@@ -213,7 +213,7 @@ export function App() {
           </p>
         </div>
 
-        <div className="mt-16">
+        <div className="mt-12">
           <Tabs
             defaultValue="text"
             onValueChange={setTab}
@@ -240,7 +240,7 @@ export function App() {
                           <Textarea
                             id="plaintext"
                             placeholder="Enter plain text to encrypt, or paste encrypted text to decrypt…"
-                            className="min-h-24 max-h-80"
+                            className="min-h-36 max-h-80"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                           />
@@ -326,7 +326,7 @@ export function App() {
                               onDrop={handleFileDrop}
                               onClick={() => fileInputRef.current?.click()}
                               className={[
-                                "flex flex-col items-center justify-center gap-1.5 rounded-md border-2 border-dashed cursor-pointer py-8 px-4 text-center transition-colors",
+                                "flex flex-col items-center justify-center gap-1.5 rounded-md border-2 border-dashed cursor-pointer py-8 px-4 text-center transition-colors min-h-36",
                                 isDragging
                                   ? "border-primary bg-primary/5"
                                   : "border-border hover:border-primary/50 hover:bg-neutral-100 dark:hover:bg-neutral-900",
@@ -430,7 +430,7 @@ export function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t h-14 px-4 flex items-center text-muted-foreground lg:max-w-4xl mx-auto w-full lg:border-x justify-center">
+      <footer className="border-t h-14 px-4 flex items-center text-muted-foreground lg:max-w-4xl mx-auto w-full lg:border-x justify-center bg-neutral-50">
         <p className="text-sm text-center">
           Brought by{" "}
           <a
