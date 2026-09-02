@@ -34,14 +34,14 @@ export default function OutputAlert({
   return (
     <Alert className="p-4">
       <AlertTitle
-        className={cn(" text-green-700", {
+        className={cn(" text-green-700 font-mono", {
           "text-destructive": isError,
         })}
       >
         {isError ? "Error" : "Output"}
       </AlertTitle>
       <AlertDescription
-        className={cn("text-foreground font-mono break-all", {
+        className={cn("text-foreground break-all", {
           "text-destructive": isError,
         })}
       >
