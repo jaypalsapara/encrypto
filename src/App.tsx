@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { decrypt, encrypt } from "@/lib/encrypto"
 import { Lock, LockOpen } from "lucide-react"
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import * as z from "zod"
 import OutputAlert from "./components/output-alert"
 import useZodValidator from "./hooks/use-zod-validator"
@@ -27,31 +27,37 @@ export function App() {
   const [output, setOutput] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [isOutputError, setIsOutputError] = useState<boolean>(false)
+  const [isPending, startTransition] = useTransition()
   const { errors, validate } = useZodValidator()
 
   // Handle Encrypt
-  const handleEncrypt = async () => {
+  const handleEncrypt = () => {
     if (!validate(schema.safeParse({ input, password }))) return
 
-    try {
-      setOutput(await encrypt(input, password))
-      setIsOutputError(false)
-    } catch {
-      setOutput("Encryption failed")
-      setIsOutputError(true)
-    }
+    startTransition(async () => {
+      try {
+        setOutput(await encrypt(input, password))
+        setIsOutputError(false)
+      } catch {
+        setOutput("Encryption failed")
+        setIsOutputError(true)
+      }
+    })
   }
 
   // Handle Decrypt
-  const handleDecrypt = async () => {
+  const handleDecrypt = () => {
     if (!validate(schema.safeParse({ input, password }))) return
-    try {
-      setOutput(await decrypt(input, password))
-      setIsOutputError(false)
-    } catch {
-      setOutput("Invalid key or encrypted text")
-      setIsOutputError(true)
-    }
+
+    startTransition(async () => {
+      try {
+        setOutput(await decrypt(input, password))
+        setIsOutputError(false)
+      } catch {
+        setOutput("Invalid key or encrypted text")
+        setIsOutputError(true)
+      }
+    })
   }
 
   // Handle Clear
@@ -119,7 +125,11 @@ export function App() {
                 </FieldGroup>
               </CardContent>
               <CardFooter className="gap-2">
-                <Button className={"grow"} onClick={handleEncrypt}>
+                <Button
+                  className={"grow"}
+                  onClick={handleEncrypt}
+                  disabled={isPending}
+                >
                   Encrypt
                 </Button>
                 <Button variant={"outline"} onClick={handleClear}>
@@ -166,7 +176,11 @@ export function App() {
                 </FieldGroup>
               </CardContent>
               <CardFooter className="gap-2">
-                <Button className={"grow"} onClick={handleDecrypt}>
+                <Button
+                  className={"grow"}
+                  onClick={handleDecrypt}
+                  disabled={isPending}
+                >
                   Decrypt
                 </Button>
                 <Button variant={"outline"} onClick={handleClear}>
@@ -177,7 +191,16 @@ export function App() {
           </TabsContent>
         </Tabs>
         <div className="mx-auto w-full max-w-xl mt-4">
-          {output && <OutputAlert value={output} isError={isOutputError} />}
+          {isPending && (
+            <div className="flex items-center gap-2">
+              <p className="shimmer text-muted-foreground text-sm">
+                Processing...
+              </p>
+            </div>
+          )}
+          {output && !isPending && (
+            <OutputAlert value={output} isError={isOutputError} />
+          )}
         </div>
       </div>
     </div>
