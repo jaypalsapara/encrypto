@@ -191,7 +191,7 @@ export function App() {
   return (
     <div className="flex min-h-svh flex-col bg-neutral-50 dark:bg-neutral-950">
       {/* Header */}
-      <header className="px-4 lg:border-x mx-auto lg:max-w-4xl w-full h-14 flex items-center border-b sticky top-0 bg-neutral-50 dark:bg-neutral-950">
+      <header className="px-4 lg:border-x mx-auto lg:max-w-4xl w-full h-14 flex items-center border-b sticky top-0 bg-neutral-50 dark:bg-neutral-950 z-50">
         <a href="/encrypto" className="flex items-center gap-2 mr-auto">
           <Lock className="stroke-3 size-4.5" />
           <p className="text-lg tracking-tight font-bold leading-none">

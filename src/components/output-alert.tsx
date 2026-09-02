@@ -13,6 +13,7 @@ export default function OutputAlert({
 }) {
   const [copied, setCopied] = useState<boolean>(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const alertRef = useRef<HTMLDivElement | null>(null)
 
   // Handle Copy
   const handleCopy = () => {
@@ -21,6 +22,15 @@ export default function OutputAlert({
       setCopied(true)
     })
   }
+
+  useEffect(() => {
+    if (!alertRef.current) return
+
+    alertRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
+  }, [])
 
   useEffect(() => {
     if (copied) {
@@ -32,7 +42,7 @@ export default function OutputAlert({
   }, [copied])
 
   return (
-    <Alert className="p-4">
+    <Alert className="p-4 scroll-mt-16" ref={alertRef}>
       <AlertTitle
         className={cn(" text-green-700 font-mono", {
           "text-destructive": isError,
