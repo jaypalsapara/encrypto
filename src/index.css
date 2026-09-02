@@ -137,11 +137,3 @@
     @apply font-sans;
   }
 }
-
-@layer components {
-  .grid-bg {
-    background-image: radial-gradient(var(--color-neutral-200) 1px, transparent 1px);
-    background-size: 12px 12px;
-    background-color: var(--color-neutral-50);
-  }
-}
