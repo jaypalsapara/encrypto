@@ -66,6 +66,7 @@ const formatBytes = (bytes: number): string => {
 // ── Component ─────────────────────────────────────────────────────────────────
 export function App() {
   const [tab, setTab] = useState<"text" | "file">("text")
+  const [shouldScroll, setShouldScroll] = useState<boolean>(false)
   const appearance = useTheme()
 
   // ── Text tab state ──────────────────────────────────────────────────────────
@@ -89,6 +90,7 @@ export function App() {
   // ── Text handlers ───────────────────────────────────────────────────────────
   const handleEncrypt = () => {
     if (!validate(textSchema.safeParse({ input, password }))) return
+    setShouldScroll(true)
     startTransition(async () => {
       try {
         setOutput(await encrypt(input, password))
@@ -102,6 +104,7 @@ export function App() {
 
   const handleDecrypt = () => {
     if (!validate(textSchema.safeParse({ input, password }))) return
+    setShouldScroll(true)
     startTransition(async () => {
       try {
         setOutput(await decrypt(input, password))
@@ -140,6 +143,7 @@ export function App() {
       setIsFileError(true)
       return
     }
+    setShouldScroll(true)
     startFileTransition(async () => {
       try {
         const blob = await encryptFile(selectedFile, filePassword)
@@ -160,6 +164,7 @@ export function App() {
       setIsFileError(true)
       return
     }
+    setShouldScroll(true)
     startFileTransition(async () => {
       try {
         const result: DecryptedFile = await decryptFile(
@@ -445,10 +450,20 @@ export function App() {
               </Alert>
             )}
             {output && !isPending && tab === "text" && (
-              <OutputAlert value={output} isError={isOutputError} />
+              <OutputAlert
+                value={output}
+                isError={isOutputError}
+                shouldScroll={shouldScroll}
+                onScrolled={() => setShouldScroll(false)}
+              />
             )}
             {fileStatus && !isFilePending && tab === "file" && (
-              <OutputAlert value={fileStatus} isError={isFileError} />
+              <OutputAlert
+                value={fileStatus}
+                isError={isFileError}
+                shouldScroll={shouldScroll}
+                onScrolled={() => setShouldScroll(false)}
+              />
             )}
           </div>
 

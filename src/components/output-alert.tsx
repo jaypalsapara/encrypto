@@ -6,10 +6,14 @@ import { Button } from "./ui/button"
 
 export default function OutputAlert({
   value,
+  onScrolled,
   isError = false,
+  shouldScroll = false,
 }: {
   value: string
   isError: boolean
+  shouldScroll: boolean
+  onScrolled?: () => void
 }) {
   const [copied, setCopied] = useState<boolean>(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -25,12 +29,14 @@ export default function OutputAlert({
 
   useEffect(() => {
     if (!alertRef.current) return
+    if (!shouldScroll) return
 
     alertRef.current.scrollIntoView({
       behavior: "smooth",
       block: "start",
     })
-  }, [])
+    onScrolled?.()
+  }, [shouldScroll, onScrolled])
 
   useEffect(() => {
     if (copied) {
